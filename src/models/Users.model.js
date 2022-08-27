@@ -9,20 +9,22 @@ const Users = mongoose.Schema({
     type: String,
     required: true,
   },
-  general: {
-    weight: {
-      type: Number,
-      required: true,
+  general: [
+    {
+      weight: {
+        type: Number,
+        required: true,
+      },
+      height: {
+        type: Number,
+        required: true,
+      },
+      gender: {
+        type: String,
+        required: true,
+      },
     },
-    height: {
-      type: Number,
-      required: true,
-    },
-    gender: {
-      type: String,
-      required: true,
-    },
-  },
+  ],
 })
 
 module.exports = mongoose.model('users', Users)

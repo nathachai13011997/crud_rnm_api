@@ -35,7 +35,7 @@ const methods = {
   },
   async onDelete(req, res) {
     try {
-      await Users.delete(req.params.id)
+      await Users.deleteOne(req.params.id)
       res.success('success')
     } catch (error) {
       res.error(error)

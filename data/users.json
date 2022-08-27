@@ -1,0 +1,66 @@
+[{
+  "_id": {
+    "$oid": "6308f7e05c0fa491f30d5f94"
+  },
+  "name": "Nathachai",
+  "email": "nathachai@gmail.com",
+  "__v": 0,
+  "general": [
+    {
+      "weight": 55,
+      "height": 165,
+      "gender": "ชาย"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "630a05d4ce5c8e0f61d9cce3"
+  },
+  "name": "Armando",
+  "email": "armando@gmail.com",
+  "general": [
+    {
+      "weight": 65,
+      "height": 170,
+      "gender": "ชาย",
+      "_id": {
+        "$oid": "630a05d4ce5c8e0f61d9cce4"
+      }
+    }
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630a0617ce5c8e0f61d9cce7"
+  },
+  "name": "Gunnar",
+  "email": "gunnar@gmail.com",
+  "general": [
+    {
+      "weight": 60,
+      "height": 170,
+      "gender": "หญิง",
+      "_id": {
+        "$oid": "630a0617ce5c8e0f61d9cce8"
+      }
+    }
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "630a064fce5c8e0f61d9cceb"
+  },
+  "name": "Test123",
+  "email": "Test123@gmail.com",
+  "general": [
+    {
+      "weight": 57,
+      "height": 169,
+      "gender": "ชาย",
+      "_id": {
+        "$oid": "630a0672ce5c8e0f61d9ccf1"
+      }
+    }
+  ],
+  "__v": 0
+}]

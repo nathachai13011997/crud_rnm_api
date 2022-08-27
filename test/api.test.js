@@ -33,11 +33,13 @@ describe('Testing API Users (Done) ', () => {
       .send({
         name: 'Nat',
         email: 'Nay@gmail.com',
-        general: {
-          weight: 60,
-          height: 160,
-          gender: 'ชาย',
-        },
+        general: [
+          {
+            weight: 60,
+            height: 160,
+            gender: 'ชาย',
+          },
+        ],
       })
       .end((e, res) => {
         id = res.body._id
@@ -64,11 +66,13 @@ describe('Testing API Users (Done) ', () => {
       .send({
         name: 'Cosmo',
         email: 'cosmo@gmail.com',
-        general: {
-          weight: 55,
-          height: 165,
-          gender: 'หญิง',
-        },
+        general: [
+          {
+            weight: 55,
+            height: 165,
+            gender: 'หญิง',
+          },
+        ],
       })
       .end((e, res) => {
         res.should.have.status(200)
@@ -95,7 +99,11 @@ describe('Testing API Users (Done) ', () => {
 
 // --- Fail ---
 describe('Testing API Users (fail) ', () => {
-  const id = '6308f7e05c0fa491f30d5f94' // Use with Method PUT, get _id from MongoDB
+  before((done) => {
+    // Do something here before test
+    done()
+  })
+  const id = '630a064fce5c8e0f61d9cceb' // Use with Method PUT, get _id from MongoDB
 
   // --- GET ---
   describe('GET / ', () => {
@@ -122,11 +130,13 @@ describe('Testing API Users (fail) ', () => {
         .send({
           name: 'Nathachai',
           email: 'nathachai@gmail.com',
-          general: {
-            weight: 55,
-            height: 165,
-            gender: 'หญิง',
-          },
+          general: [
+            {
+              weight: 55,
+              height: 165,
+              gender: 'หญิง',
+            },
+          ],
         })
         .end((e, res) => {
           res.should.have.status(404)
@@ -143,15 +153,16 @@ describe('Testing API Users (fail) ', () => {
         .send({
           name: '',
           email: '',
-          general: {
-            weight: 55,
-            height: 165,
-            gender: 'หญิง',
-          },
+          general: [
+            {
+              weight: 55,
+              height: 165,
+              gender: 'หญิง',
+            },
+          ],
         })
         .end((e, res) => {
           res.should.have.status(422)
-          res.body.error.should.have.property('message').eql('name: is Empty')
           done()
         })
     })
@@ -164,11 +175,13 @@ describe('Testing API Users (fail) ', () => {
         .send({
           name: 'Test001',
           email: 'Test001',
-          general: {
-            weight: 55,
-            height: 165,
-            gender: 'หญิง',
-          },
+          general: [
+            {
+              weight: 55,
+              height: 165,
+              gender: 'หญิง',
+            },
+          ],
         })
         .end((e, res) => {
           res.should.have.status(422)
@@ -185,11 +198,13 @@ describe('Testing API Users (fail) ', () => {
         .send({
           name: 'Test001',
           email: 'Test001@gmail.com',
-          general: {
-            weight: 'asd',
-            height: 'asd',
-            gender: 'หญิง',
-          },
+          general: [
+            {
+              weight: 'asd',
+              height: 'asd',
+              gender: 'หญิง',
+            },
+          ],
         })
         .end((e, res) => {
           res.should.have.status(500)
@@ -209,11 +224,13 @@ describe('Testing API Users (fail) ', () => {
         .send({
           name: 'Armando',
           email: 'nathachai@gmail.com',
-          general: {
-            weight: 55,
-            height: 165,
-            gender: 'ชาย',
-          },
+          general: [
+            {
+              weight: 55,
+              height: 165,
+              gender: 'ชาย',
+            },
+          ],
         })
         .end((e, res) => {
           res.should.have.status(404)
@@ -230,11 +247,13 @@ describe('Testing API Users (fail) ', () => {
         .send({
           name: 'Armando',
           email: 'nathachai@gmail.com',
-          general: {
-            weight: 55,
-            height: 165,
-            gender: 'ชาย',
-          },
+          general: [
+            {
+              weight: 55,
+              height: 165,
+              gender: 'ชาย',
+            },
+          ],
         })
         .end((e, res) => {
           res.should.have.status(404)
@@ -251,11 +270,13 @@ describe('Testing API Users (fail) ', () => {
         .send({
           name: '1234',
           email: '',
-          general: {
-            weight: 55,
-            height: 165,
-            gender: 'หญิง',
-          },
+          general: [
+            {
+              weight: 55,
+              height: 165,
+              gender: 'หญิง',
+            },
+          ],
         })
         .end((e, res) => {
           res.should.have.status(422)
@@ -271,11 +292,13 @@ describe('Testing API Users (fail) ', () => {
         .send({
           name: 'Test001',
           email: 'Test001',
-          general: {
-            weight: 55,
-            height: 165,
-            gender: 'หญิง',
-          },
+          general: [
+            {
+              weight: 55,
+              height: 165,
+              gender: 'หญิง',
+            },
+          ],
         })
         .end((e, res) => {
           res.should.have.status(422)
@@ -292,11 +315,13 @@ describe('Testing API Users (fail) ', () => {
         .send({
           name: 'Test001',
           email: 'Test001@gmail.com',
-          general: {
-            weight: 'asd',
-            height: 'asd',
-            gender: 'หญิง',
-          },
+          general: [
+            {
+              weight: 'asd',
+              height: 'asd',
+              gender: 'หญิง',
+            },
+          ],
         })
         .end((e, res) => {
           res.should.have.status(500)
@@ -320,5 +345,9 @@ describe('Testing API Users (fail) ', () => {
     })
   })
   // --- End DELETE ---
+  after((done) => {
+    // Do sommeting here after test
+    done()
+  })
 })
 //  --- End Fail ---

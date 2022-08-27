@@ -11,28 +11,28 @@ Content-Type: application/json
 
 {
     
-    "name" : "Nat",
-    "email" : "nat@gmail.com",
-    "general": {
-      "weight": 65,
+    "name" : "Test",
+    "email" : "Test@gmail.com",
+    "general": [{
+      "weight": 60,
       "height": 170,
-      "gender": "ชาย"
-    }
+      "gender": "หญิง"
+    }]
 }
 
 ###
 
-PUT http://localhost:5000/api/users/000000000000000000000000
+PUT http://localhost:5000/api/users/630a064fce5c8e0f61d9cceb
 Content-Type: application/json
 
 {
-    "name" : "Nathachai",
-    "email" : "nathachai@gmail.com",
-    "general": {
+    "name" : "Test123",
+    "email" : "Test123@gmail.com",
+    "general": [{
       "weight": "57",
       "height": "169",
       "gender": "ชาย"
-    }
+    }]
 }
 
 ###

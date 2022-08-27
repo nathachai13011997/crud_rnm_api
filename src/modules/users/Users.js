@@ -60,7 +60,7 @@ const methods = {
       }
     })
   },
-  delete(id) {
+  deleteOne(id) {
     return new Promise(async (resolve, reject) => {
       try {
         const findId = await Users.findOne({ _id: id })
