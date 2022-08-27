@@ -1,4 +1,4 @@
-## Project Contact List Appication of RESTFull API with Express
+## Project CRUD RNM API of RESTFull API with Express
 
 Requires [node.js](https://nodejs.org/en/) and [express.js](https://expressjs.com/) to run
 
