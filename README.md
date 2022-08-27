@@ -8,8 +8,7 @@ Requires [node.js](https://nodejs.org/en/) and [express.js](https://expressjs.co
 src
  └─── configs               # Configuration related stuff
  └─── contrrollers          # Controllers for all the endpoints
- └─── db
-       └─── models          # Object Models
+ └─── models                # Object Models
  └─── modules               # Business logic
  └─── routes                # Routes for all the endpoints
  └─── services              # services function
