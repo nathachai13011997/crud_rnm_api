@@ -13,6 +13,7 @@ src
  └─── modules               # Business logic
  └─── routes                # Routes for all the endpoints
  └─── services              # services function
+ └─── validators            # validator function
 ```
 
 ### Start App
