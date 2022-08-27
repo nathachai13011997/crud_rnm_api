@@ -1,10 +1,6 @@
 const mongoose = require('mongoose')
 
 const Users = mongoose.Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -15,11 +11,11 @@ const Users = mongoose.Schema({
   },
   general: {
     weight: {
-      type: String,
+      type: Number,
       required: true,
     },
     height: {
-      type: String,
+      type: Number,
       required: true,
     },
     gender: {

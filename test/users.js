@@ -1,86 +1,324 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const { after, before, describe, it } = require('mocha')
-const server = require('../src/index')
+const server = require('../src/main')
 
 chai.use(chaiHttp)
 chai.should()
 
-describe('Testing unit 1', () => {
+// --- Doun ---
+describe('Testing API Users (Done) ', () => {
   before((done) => {
     // Do something here before test
     done()
   })
 
-  describe('GET /', () => {
-    it('it should have status 200', (done) => {
-      chai
-        .request(server)
-        .get('/api/users')
-        .end((e, res) => {
-          res.should.have.status(200)
-          done()
-        })
-    })
+  let id = ''
+
+  it('get all it should have status 200', (done) => {
+    chai
+      .request(server)
+      .get('/api/users')
+      .end((e, res) => {
+        res.should.have.status(200)
+        done()
+      })
   })
 
-  describe('POST /', () => {
-    it('is should have status 200', (done) => {
-      chai
-        .request(server)
-        .post('/api/users')
-        .set('content-type', 'application/json')
-        .send({
-          name: 'Test',
-          email: 'C001',
-          general: {
-            weight: '55',
-            height: '165',
-            gender: 'หญิง',
-          },
-        })
-        .end((e, res) => {
-          res.should.have.status(200)
-          done()
-        })
-    })
+  it('save is should have status 200', (done) => {
+    chai
+      .request(server)
+      .post('/api/users')
+      .set('content-type', 'application/json')
+      .send({
+        name: 'Nat',
+        email: 'Nay@gmail.com',
+        general: {
+          weight: 60,
+          height: 160,
+          gender: 'ชาย',
+        },
+      })
+      .end((e, res) => {
+        id = res.body._id
+        res.should.have.status(200)
+        done()
+      })
   })
 
-  describe('PUT /', () => {
-    it('is should hava status 200', (done) => {
-      chai
-        .request(server)
-        .put('/api/users/3')
-        .set('content-type', 'application/json')
-        .send({
-          name: 'Cosmo',
-          email: 'cosmo@gmail.com',
-          general: {
-            weight: '55',
-            height: '165',
-            gender: 'หญิง',
-          },
-        })
-        .end((e, res) => {
-          res.should.have.status(200)
-          done()
-        })
-    })
+  it('get by id it should have status 200', (done) => {
+    chai
+      .request(server)
+      .get(`/api/users/${id}`)
+      .end((e, res) => {
+        res.should.have.status(200)
+        done()
+      })
   })
 
-  describe('DELETE /', () => {
-    it('is should hava status 200', (done) => {
-      chai
-        .request(server)
-        .delete('/api/users/3')
-        .end((e, res) => {
-          res.should.have.status(200)
-          done()
-        })
-    })
+  it('update is should hava status 200', (done) => {
+    chai
+      .request(server)
+      .put(`/api/users/${id}`)
+      .set('content-type', 'application/json')
+      .send({
+        name: 'Cosmo',
+        email: 'cosmo@gmail.com',
+        general: {
+          weight: 55,
+          height: 165,
+          gender: 'หญิง',
+        },
+      })
+      .end((e, res) => {
+        res.should.have.status(200)
+        done()
+      })
   })
+
+  it('delete is should hava status 200', (done) => {
+    chai
+      .request(server)
+      .delete(`/api/users/${id}`)
+      .end((e, res) => {
+        res.should.have.status(200)
+        done()
+      })
+  })
+
   after((done) => {
     // Do sommeting here after test
     done()
   })
 })
+//  --- End Doun ---
+
+// --- Fail ---
+describe('Testing API Users (fail) ', () => {
+  const id = '6308f7e05c0fa491f30d5f94' // Use with Method PUT, get _id from MongoDB
+
+  // --- GET ---
+  describe('GET / ', () => {
+    it('id not found is should have status 404', (done) => {
+      chai
+        .request(server)
+        .get(`/api/users/000000000000000000000000`)
+        .end((e, res) => {
+          res.should.have.status(404)
+          res.body.error.should.have.property('message').eql('id not found')
+          done()
+        })
+    })
+  })
+  // --- End GET ---
+
+  // --- POST ---
+  describe('POST / ', () => {
+    it('name duplicate is should have status 404', (done) => {
+      chai
+        .request(server)
+        .post('/api/users')
+        .set('content-type', 'application/json')
+        .send({
+          name: 'Nathachai',
+          email: 'nathachai@gmail.com',
+          general: {
+            weight: 55,
+            height: 165,
+            gender: 'หญิง',
+          },
+        })
+        .end((e, res) => {
+          res.should.have.status(404)
+          res.body.error.should.have.property('message').eql('name duplicate')
+          done()
+        })
+    })
+
+    it('if not enter your name email is should have status 422', (done) => {
+      chai
+        .request(server)
+        .post('/api/users')
+        .set('content-type', 'application/json')
+        .send({
+          name: '',
+          email: '',
+          general: {
+            weight: 55,
+            height: 165,
+            gender: 'หญิง',
+          },
+        })
+        .end((e, res) => {
+          res.should.have.status(422)
+          res.body.error.should.have.property('message').eql('name: is Empty')
+          done()
+        })
+    })
+
+    it('if the email format is entered incorrectly is should have status 422', (done) => {
+      chai
+        .request(server)
+        .post('/api/users')
+        .set('content-type', 'application/json')
+        .send({
+          name: 'Test001',
+          email: 'Test001',
+          general: {
+            weight: 55,
+            height: 165,
+            gender: 'หญิง',
+          },
+        })
+        .end((e, res) => {
+          res.should.have.status(422)
+          res.body.error.should.have.property('message').eql('email: must be email')
+          done()
+        })
+    })
+
+    it('if you enter your weight or height in letters is should have status 500', (done) => {
+      chai
+        .request(server)
+        .post('/api/users')
+        .set('content-type', 'application/json')
+        .send({
+          name: 'Test001',
+          email: 'Test001@gmail.com',
+          general: {
+            weight: 'asd',
+            height: 'asd',
+            gender: 'หญิง',
+          },
+        })
+        .end((e, res) => {
+          res.should.have.status(500)
+          done()
+        })
+    })
+  })
+  // --- End POST ---
+
+  // --- PUT ---
+  describe('PUT / ', () => {
+    it('id not found is should have status 404', (done) => {
+      chai
+        .request(server)
+        .put(`/api/users/000000000000000000000000`)
+        .set('content-type', 'application/json')
+        .send({
+          name: 'Armando',
+          email: 'nathachai@gmail.com',
+          general: {
+            weight: 55,
+            height: 165,
+            gender: 'ชาย',
+          },
+        })
+        .end((e, res) => {
+          res.should.have.status(404)
+          res.body.error.should.have.property('message').eql('id not found')
+          done()
+        })
+    })
+
+    it('name duplicate is should have status 404', (done) => {
+      chai
+        .request(server)
+        .put(`/api/users/${id}`)
+        .set('content-type', 'application/json')
+        .send({
+          name: 'Armando',
+          email: 'nathachai@gmail.com',
+          general: {
+            weight: 55,
+            height: 165,
+            gender: 'ชาย',
+          },
+        })
+        .end((e, res) => {
+          res.should.have.status(404)
+          res.body.error.should.have.property('message').eql('name duplicate')
+          done()
+        })
+    })
+
+    it('if not enter your name email is should have status 422', (done) => {
+      chai
+        .request(server)
+        .put(`/api/users/${id}`)
+        .set('content-type', 'application/json')
+        .send({
+          name: '1234',
+          email: '',
+          general: {
+            weight: 55,
+            height: 165,
+            gender: 'หญิง',
+          },
+        })
+        .end((e, res) => {
+          res.should.have.status(422)
+          done()
+        })
+    })
+
+    it('if the email format is entered incorrectly is should have status 422', (done) => {
+      chai
+        .request(server)
+        .put(`/api/users/${id}`)
+        .set('content-type', 'application/json')
+        .send({
+          name: 'Test001',
+          email: 'Test001',
+          general: {
+            weight: 55,
+            height: 165,
+            gender: 'หญิง',
+          },
+        })
+        .end((e, res) => {
+          res.should.have.status(422)
+          res.body.error.should.have.property('message').eql('email: must be email')
+          done()
+        })
+    })
+
+    it('if you enter your weight or height in letters is should have status 500', (done) => {
+      chai
+        .request(server)
+        .put(`/api/users/${id}`)
+        .set('content-type', 'application/json')
+        .send({
+          name: 'Test001',
+          email: 'Test001@gmail.com',
+          general: {
+            weight: 'asd',
+            height: 'asd',
+            gender: 'หญิง',
+          },
+        })
+        .end((e, res) => {
+          res.should.have.status(500)
+          done()
+        })
+    })
+  })
+  //  --- End PUT ---
+
+  // --- DELETE ---
+  describe('DELETE / ', () => {
+    it('id not found is should have status 404', (done) => {
+      chai
+        .request(server)
+        .delete(`/api/users/000000000000000000000000`)
+        .end((e, res) => {
+          res.should.have.status(404)
+          res.body.error.should.have.property('message').eql('id not found')
+          done()
+        })
+    })
+  })
+  // --- End DELETE ---
+})
+//  --- End Fail ---

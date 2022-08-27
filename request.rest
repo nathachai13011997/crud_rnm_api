@@ -2,7 +2,7 @@ GET http://localhost:5000/api/users
 
 ###
 
-GET http://localhost:5000/api/users/1
+GET http://localhost:5000/api/users/000000000000000000000000
 
 ###
 
@@ -11,30 +11,30 @@ Content-Type: application/json
 
 {
     
-    "name" : "Test",
-    "email" : "C001",
+    "name" : "Nat",
+    "email" : "nat@gmail.com",
     "general": {
-      "weight": "55",
-      "height": "165",
-      "gender": "หญิง"
+      "weight": 65,
+      "height": 170,
+      "gender": "ชาย"
     }
 }
 
 ###
 
-PUT http://localhost:5000/api/users/3
+PUT http://localhost:5000/api/users/000000000000000000000000
 Content-Type: application/json
 
 {
-    "name" : "Cosmo",
-    "email" : "cosmo@gmail.com",
+    "name" : "Nathachai",
+    "email" : "nathachai@gmail.com",
     "general": {
-      "weight": "55",
-      "height": "165",
-      "gender": "หญิง"
+      "weight": "57",
+      "height": "169",
+      "gender": "ชาย"
     }
 }
 
 ###
 
-DELETE http://localhost:5000/api/users/3
+DELETE http://localhost:5000/api/users/000000000000000000000000

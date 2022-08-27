@@ -1,14 +1,12 @@
 const Users = require('../../models/Users.model.js')
+const { ObjectId } = require('mongodb')
 const { ErrorNotFound } = require('../../services/errorMethods.service.js')
 
 const methods = {
   find() {
     return new Promise(async (resolve, reject) => {
       try {
-        const obj = await Users.find(
-          {},
-          { _id: 0, id: 1, name: 1, email: 1, general: { weight: 1, height: 1, gender: 1 } },
-        )
+        const obj = await Users.find()
         resolve(obj)
       } catch (err) {
         reject(err)
@@ -18,10 +16,12 @@ const methods = {
   findById(id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const obj = await Users.find(
-          { id: id },
-          { _id: 0, id: 1, name: 1, email: 1, general: { weight: 1, height: 1, gender: 1 } },
-        )
+        const _id = ObjectId(id)
+
+        const findId = await Users.findOne({ _id: _id })
+        if (!findId) return reject(ErrorNotFound('id not found'))
+
+        const obj = await Users.findOne({ _id: _id })
         resolve(obj)
       } catch (err) {
         reject(err)
@@ -31,11 +31,9 @@ const methods = {
   save(data) {
     return new Promise(async (resolve, reject) => {
       try {
-        const count = await Users.find().count()
         const findName = await Users.findOne({ name: data.name })
         if (findName) return reject(ErrorNotFound('name duplicate'))
 
-        data.id = count + 1
         const users = new Users(data)
         const obj = await users.save(data)
         resolve(obj)
@@ -47,10 +45,15 @@ const methods = {
   update(id, data) {
     return new Promise(async (resolve, reject) => {
       try {
-        const findName = await Users.aggregate([{ $match: { $and: [{ name: data.name, id: { $ne: id } }] } }])
+        const _id = ObjectId(id)
+
+        const findId = await Users.findOne({ _id: _id })
+        if (!findId) return reject(ErrorNotFound('id not found'))
+
+        const findName = await Users.aggregate([{ $match: { $and: [{ name: data.name, _id: { $ne: _id } }] } }])
         if (findName.length > 0) return reject(ErrorNotFound('name duplicate'))
 
-        const obj = await Users.updateOne({ id: id }, { $set: data })
+        const obj = await Users.updateOne({ _id: _id }, { $set: data })
         resolve(obj)
       } catch (err) {
         reject(err)
@@ -60,10 +63,10 @@ const methods = {
   delete(id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const findId = await Users.findOne({ id: id })
+        const findId = await Users.findOne({ _id: id })
         if (!findId) return reject(ErrorNotFound('id not found'))
 
-        const obj = await Users.deleteOne({ id: id })
+        const obj = await Users.deleteOne({ _id: id })
         resolve(obj)
       } catch (err) {
         reject(err)

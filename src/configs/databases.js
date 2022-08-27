@@ -16,5 +16,4 @@ const databases = {
   },
 }
 
-// module.exports = databases.mongoDB()
 module.exports = databases.mongoDB()

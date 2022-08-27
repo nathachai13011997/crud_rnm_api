@@ -1,6 +1,5 @@
 const route = require('express').Router()
-const UsersRoute = require('./Users.route.js')
 
-route.use('/users', UsersRoute)
+route.use('/users', require('./Users.route.js'))
 
 module.exports = route
